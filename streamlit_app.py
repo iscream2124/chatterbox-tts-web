@@ -11,7 +11,25 @@ try:
     from chatterbox.mtl_tts import ChatterboxMultilingualTTS, SUPPORTED_LANGUAGES
 except ImportError:
     st.error("❌ chatterbox 모듈을 찾을 수 없습니다.")
-    st.info("🔧 Streamlit Cloud에서 chatterbox 모듈 설치가 필요합니다.")
+    
+    # chatterbox 모듈 설치 시도
+    if st.button("🔧 chatterbox 모듈 설치하기"):
+        with st.spinner("chatterbox 모듈을 설치하는 중..."):
+            try:
+                import subprocess
+                import sys
+                result = subprocess.run([
+                    sys.executable, "-m", "pip", "install", 
+                    "git+https://github.com/resemble-ai/chatterbox.git"
+                ], capture_output=True, text=True)
+                
+                if result.returncode == 0:
+                    st.success("✅ chatterbox 모듈 설치 완료!")
+                    st.rerun()
+                else:
+                    st.error(f"❌ 설치 실패: {result.stderr}")
+            except Exception as e:
+                st.error(f"❌ 설치 중 오류: {str(e)}")
     
     # 대안: 간단한 TTS 데모 제공
     st.warning("⚠️ 현재 chatterbox 모듈이 설치되지 않아 TTS 기능을 사용할 수 없습니다.")
