@@ -100,13 +100,10 @@ if st.button("🎵 음성 생성", type="primary"):
     else:
         with st.spinner("음성을 생성하는 중..."):
             try:
-                # TTS 생성
+                # TTS 생성 (기본 파라미터만 사용)
                 wav = model.generate(
                     text,
-                    language_id=language,
-                    speed=speed,
-                    exaggeration=exaggeration,
-                    cfg_weight=cfg_weight
+                    language_id=language
                 )
                 
                 # 오디오 파일 저장
