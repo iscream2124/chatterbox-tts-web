@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatterbox 한국어 TTS - 온라인 서비스</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 헤더 -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-microphone-alt"></i>
+                    <h1>Chatterbox TTS</h1>
+                    <span class="online-badge">온라인</span>
+                </div>
+                <div class="status-indicator">
+                    <span id="status" class="status-text">준비 중...</span>
+                    <div id="status-dot" class="status-dot"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 메인 컨텐츠 -->
+        <main class="main-content">
+            <div class="content-grid">
+                <!-- 텍스트 입력 섹션 -->
+                <section class="input-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-edit"></i> 텍스트 입력</h2>
+                    </div>
+                    <div class="input-container">
+                        <textarea 
+                            id="textInput" 
+                            placeholder="한국어 텍스트를 입력하세요..."
+                            maxlength="500"
+                        >안녕하세요! 저는 Chatterbox TTS입니다. 온라인에서 한국어 음성 합성을 테스트하고 있습니다.</textarea>
+                        <div class="char-counter">
+                            <span id="charCount">0</span>/500
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 설정 섹션 -->
+                <section class="settings-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-cog"></i> 음성 설정</h2>
+                    </div>
+                    <div class="settings-grid">
+                        <!-- 감정 선택 -->
+                        <div class="setting-group">
+                            <label for="emotionSelect">
+                                <i class="fas fa-smile"></i> 감정
+                            </label>
+                            <select id="emotionSelect">
+                                <option value="neutral">중립 (Neutral)</option>
+                                <option value="happy">행복 (Happy)</option>
+                                <option value="sad">슬픔 (Sad)</option>
+                                <option value="angry">화남 (Angry)</option>
+                                <option value="excited">흥분 (Excited)</option>
+                                <option value="calm">차분 (Calm)</option>
+                            </select>
+                        </div>
+
+                        <!-- 속도 설정 -->
+                        <div class="setting-group">
+                            <label for="speedSlider">
+                                <i class="fas fa-tachometer-alt"></i> 속도
+                                <span id="speedValue">1.0x</span>
+                            </label>
+                            <input type="range" id="speedSlider" min="0.5" max="2.0" step="0.1" value="1.0">
+                        </div>
+
+                        <!-- 음성 강도 -->
+                        <div class="setting-group">
+                            <label for="exaggerationSlider">
+                                <i class="fas fa-volume-up"></i> 음성 강도
+                                <span id="exaggerationValue">1.0</span>
+                            </label>
+                            <input type="range" id="exaggerationSlider" min="0.5" max="2.0" step="0.1" value="1.0">
+                        </div>
+
+                        <!-- CFG 가중치 -->
+                        <div class="setting-group">
+                            <label for="cfgSlider">
+                                <i class="fas fa-sliders-h"></i> CFG 가중치
+                                <span id="cfgValue">0.5</span>
+                            </label>
+                            <input type="range" id="cfgSlider" min="0.0" max="1.0" step="0.1" value="0.5">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 컨트롤 섹션 -->
+                <section class="control-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-play-circle"></i> 컨트롤</h2>
+                    </div>
+                    <div class="control-buttons">
+                        <button id="generateBtn" class="btn btn-primary" disabled>
+                            <i class="fas fa-magic"></i>
+                            음성 생성
+                        </button>
+                        <button id="playBtn" class="btn btn-secondary" disabled>
+                            <i class="fas fa-play"></i>
+                            재생
+                        </button>
+                        <button id="downloadBtn" class="btn btn-secondary" disabled>
+                            <i class="fas fa-download"></i>
+                            다운로드
+                        </button>
+                        <button id="clearBtn" class="btn btn-outline">
+                            <i class="fas fa-trash"></i>
+                            초기화
+                        </button>
+                    </div>
+                </section>
+
+                <!-- 오디오 플레이어 섹션 -->
+                <section class="audio-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-headphones"></i> 오디오 플레이어</h2>
+                    </div>
+                    <div class="audio-container">
+                        <div class="audio-visualizer">
+                            <canvas id="audioCanvas" width="400" height="100"></canvas>
+                        </div>
+                        <div class="audio-controls">
+                            <button id="audioPlayBtn" class="btn btn-icon" disabled>
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <div class="progress-container">
+                                <input type="range" id="audioProgress" min="0" max="100" value="0" disabled>
+                                <div class="time-display">
+                                    <span id="currentTime">0:00</span>
+                                    <span id="totalTime">0:00</span>
+                                </div>
+                            </div>
+                            <button id="audioStopBtn" class="btn btn-icon" disabled>
+                                <i class="fas fa-stop"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 사용법 섹션 -->
+                <section class="help-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-question-circle"></i> 사용법</h2>
+                    </div>
+                    <div class="help-content">
+                        <ol>
+                            <li>텍스트 입력란에 한국어 문장을 입력하세요 (최대 500자)</li>
+                            <li>원하는 감정과 음성 설정을 조절하세요</li>
+                            <li>"음성 생성" 버튼을 클릭하여 TTS를 생성하세요</li>
+                            <li>생성된 음성을 재생하거나 다운로드하세요</li>
+                        </ol>
+                        <div class="features">
+                            <h3>주요 기능:</h3>
+                            <ul>
+                                <li>✅ 6가지 감정 표현</li>
+                                <li>✅ 속도 및 음성 강도 조절</li>
+                                <li>✅ 실시간 오디오 시각화</li>
+                                <li>✅ WAV 파일 다운로드</li>
+                                <li>✅ 반응형 웹 디자인</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- 진행률 표시 -->
+        <div id="progressOverlay" class="progress-overlay hidden">
+            <div class="progress-content">
+                <div class="spinner"></div>
+                <h3>음성을 생성하는 중...</h3>
+                <p id="progressText">모델을 로딩하고 있습니다...</p>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 알림 토스트 -->
+        <div id="toast" class="toast hidden">
+            <div class="toast-content">
+                <i class="toast-icon"></i>
+                <span class="toast-message"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
