@@ -1,11 +1,4 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
-  "name": "chatterbox-tts-web",
-  "variables": {
-    "PYTHONPATH": "/app/chatterbox_repo:/app",
-    "FLASK_APP": "app.py"
-  },
-  "build": {
-    "builder": "DOCKERFILE"
-  }
+  "name": "chatterbox-tts-web"
 }

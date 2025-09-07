@@ -1,5 +1,5 @@
-# Use Python 3.10 slim image
-FROM python:3.10-slim
+# Use Python 3.11 slim image (more stable)
+FROM python:3.11-slim
 
 # Set working directory
 WORKDIR /app
@@ -37,10 +37,6 @@ ENV PORT=5000
 
 # Expose port
 EXPOSE 5000
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:5000/api/health || exit 1
 
 # Run the application
 CMD ["python", "app.py"]
