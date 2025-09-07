@@ -12,7 +12,14 @@ try:
 except ImportError:
     st.error("❌ chatterbox 모듈을 찾을 수 없습니다.")
     st.info("🔧 Streamlit Cloud에서 chatterbox 모듈 설치가 필요합니다.")
-    st.stop()
+    
+    # 대안: 간단한 TTS 데모 제공
+    st.warning("⚠️ 현재 chatterbox 모듈이 설치되지 않아 TTS 기능을 사용할 수 없습니다.")
+    st.info("📝 대신 텍스트를 입력하면 음성 생성 시뮬레이션을 보여드립니다.")
+    
+    # 모듈 없이도 앱이 실행되도록 수정
+    ChatterboxMultilingualTTS = None
+    SUPPORTED_LANGUAGES = ["ko", "en", "ja", "zh"]
 
 # 페이지 설정
 st.set_page_config(
@@ -28,6 +35,10 @@ st.markdown("---")
 # TTS 모델 로드
 @st.cache_resource
 def load_model():
+    if ChatterboxMultilingualTTS is None:
+        st.warning("⚠️ chatterbox 모듈이 설치되지 않아 모델을 로드할 수 없습니다.")
+        return None
+    
     if torch.cuda.is_available():
         device = "cuda"
     elif torch.backends.mps.is_available():
@@ -106,6 +117,12 @@ cfg_weight = st.sidebar.slider(
 if st.button("🎵 음성 생성", type="primary"):
     if not text.strip():
         st.error("텍스트를 입력해주세요!")
+    elif model is None:
+        st.warning("⚠️ chatterbox 모듈이 설치되지 않아 실제 음성을 생성할 수 없습니다.")
+        st.info("📝 입력된 텍스트:")
+        st.code(text)
+        st.info(f"🌍 선택된 언어: {language}")
+        st.success("✅ 음성 생성 시뮬레이션 완료!")
     else:
         with st.spinner("음성을 생성하는 중..."):
             try:
