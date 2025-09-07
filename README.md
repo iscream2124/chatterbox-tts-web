@@ -7,19 +7,35 @@ Chatterbox TTS를 온라인에서 사용할 수 있는 웹 서비스입니다.
 
 ## 🚀 빠른 시작
 
-### Railway로 배포 (추천)
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template)
-
-### Render로 배포
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
-
-### 로컬 실행
+### 로컬 실행 (추천)
 ```bash
-git clone https://github.com/your-username/chatterbox-tts-web.git
+# 저장소 클론
+git clone https://github.com/iscream2124/chatterbox-tts-web.git
 cd chatterbox-tts-web
-pip install -r requirements.txt
-python app.py
+
+# 자동 설치 및 실행
+./run_local.sh
 ```
+
+### 수동 로컬 설치
+```bash
+# Python 가상환경 생성
+python3 -m venv venv
+source venv/bin/activate
+
+# 의존성 설치
+pip install "setuptools<70.0"
+pip install git+https://github.com/resemble-ai/chatterbox.git
+pip install -r requirements_streamlit.txt
+
+# Streamlit 실행
+streamlit run streamlit_app.py
+```
+
+### 클라우드 배포
+- **Railway**: [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template)
+- **Render**: [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+- **Streamlit Cloud**: [![Deploy to Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io)
 
 ## 🚀 주요 기능
 

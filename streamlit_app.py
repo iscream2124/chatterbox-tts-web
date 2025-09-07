@@ -12,38 +12,29 @@ try:
 except ImportError:
     st.error("❌ chatterbox 모듈을 찾을 수 없습니다.")
     
-    # chatterbox 모듈 설치 시도 (Python 3.13 호환성 문제 해결)
-    if st.button("🔧 chatterbox 모듈 설치하기"):
-        with st.spinner("chatterbox 모듈을 설치하는 중..."):
-            try:
-                import subprocess
-                import sys
-                
-                # setuptools 다운그레이드 후 설치
-                commands = [
-                    [sys.executable, "-m", "pip", "install", "setuptools<70.0"],
-                    [sys.executable, "-m", "pip", "install", "git+https://github.com/resemble-ai/chatterbox.git"]
-                ]
-                
-                for cmd in commands:
-                    result = subprocess.run(cmd, capture_output=True, text=True)
-                    if result.returncode != 0:
-                        st.error(f"❌ 설치 실패: {result.stderr}")
-                        break
-                else:
-                    st.success("✅ chatterbox 모듈 설치 완료!")
-                    st.rerun()
-                    
-            except Exception as e:
-                st.error(f"❌ 설치 중 오류: {str(e)}")
+    # Streamlit Cloud에서는 패키지 설치가 제한됨
+    st.warning("⚠️ **Streamlit Cloud 제한사항:**")
+    st.info("Streamlit Cloud는 읽기 전용 환경으로 패키지 설치가 제한됩니다.")
     
     # 대안 설치 방법 안내
-    st.info("💡 **대안 설치 방법:**")
+    st.info("💡 **로컬에서 사용하는 방법:**")
     st.code("""
-# 로컬에서 설치하는 방법:
+# 1. 로컬 환경에서 설치:
 pip install "setuptools<70.0"
 pip install git+https://github.com/resemble-ai/chatterbox.git
+
+# 2. 로컬에서 Streamlit 실행:
+streamlit run streamlit_app.py
     """, language="bash")
+    
+    # 온라인 대안 서비스 안내
+    st.info("🌐 **온라인 TTS 서비스 대안:**")
+    st.markdown("""
+    - [Google Text-to-Speech](https://cloud.google.com/text-to-speech)
+    - [Amazon Polly](https://aws.amazon.com/polly/)
+    - [Microsoft Speech Services](https://azure.microsoft.com/en-us/services/cognitive-services/speech-services/)
+    - [ElevenLabs](https://elevenlabs.io/)
+    """)
     
     # 대안: 간단한 TTS 데모 제공
     st.warning("⚠️ 현재 chatterbox 모듈이 설치되지 않아 TTS 기능을 사용할 수 없습니다.")
