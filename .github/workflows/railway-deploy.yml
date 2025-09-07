@@ -1,4 +1,4 @@
-name: Deploy to Railway
+name: Build and Test
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
     
     steps:
@@ -29,9 +29,6 @@ jobs:
         python -c "import flask; print('Flask 설치 확인')"
         python -c "import torch; print('PyTorch 설치 확인')"
     
-    - name: Deploy to Railway
-      if: github.ref == 'refs/heads/main'
-      uses: railwayapp/railway-deploy@v1
-      with:
-        railway-token: ${{ secrets.RAILWAY_TOKEN }}
-        service: chatterbox-tts
+    - name: Test application
+      run: |
+        python -c "import app; print('앱 모듈 로드 성공')"

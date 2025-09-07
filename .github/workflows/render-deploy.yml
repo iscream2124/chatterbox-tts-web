@@ -1,11 +1,11 @@
-name: Deploy to Render
+name: Build and Test for Render
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
     
     steps:
@@ -26,8 +26,7 @@ jobs:
       run: |
         python -c "import app; print('앱 모듈 로드 성공')"
     
-    - name: Deploy to Render
-      if: github.ref == 'refs/heads/main'
+    - name: Build success message
       run: |
-        echo "Render 배포는 GitHub 연동을 통해 자동으로 처리됩니다."
-        echo "https://render.com 에서 저장소를 연결하세요."
+        echo "✅ 빌드 성공! Render에서 GitHub 연동을 통해 배포하세요."
+        echo "🔗 https://render.com 에서 저장소를 연결하세요."
