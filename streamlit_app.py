@@ -10,9 +10,9 @@ import sys
 try:
     from chatterbox.mtl_tts import ChatterboxMultilingualTTS, SUPPORTED_LANGUAGES
 except ImportError:
-    with st.spinner("chatterbox 모듈을 설치하는 중..."):
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "git+https://github.com/resemble-ai/chatterbox.git"])
-        from chatterbox.mtl_tts import ChatterboxMultilingualTTS, SUPPORTED_LANGUAGES
+    st.error("❌ chatterbox 모듈을 찾을 수 없습니다.")
+    st.info("🔧 Streamlit Cloud에서 chatterbox 모듈 설치가 필요합니다.")
+    st.stop()
 
 # 페이지 설정
 st.set_page_config(
