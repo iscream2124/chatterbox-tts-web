@@ -1,6 +1,25 @@
-# Chatterbox TTS 온라인 서비스
+# 🎤 Chatterbox TTS 온라인 서비스
+
+[![Deploy to Railway](https://railway.app/button.svg)](https://railway.app/template/your-template-id)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
 
 Chatterbox TTS를 온라인에서 사용할 수 있는 웹 서비스입니다.
+
+## 🚀 빠른 시작
+
+### Railway로 배포 (추천)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template)
+
+### Render로 배포
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
+### 로컬 실행
+```bash
+git clone https://github.com/your-username/chatterbox-tts-web.git
+cd chatterbox-tts-web
+pip install -r requirements.txt
+python app.py
+```
 
 ## 🚀 주요 기능
 
