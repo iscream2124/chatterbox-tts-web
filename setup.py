@@ -1,0 +1,32 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="chatterbox-tts-web",
+    version="1.0.0",
+    packages=find_packages(),
+    install_requires=[
+        "streamlit==1.28.1",
+        "torch==2.6.0",
+        "torchaudio==2.6.0",
+        "torchvision==0.21.0",
+        "transformers==4.46.3",
+        "diffusers==0.29.0",
+        "librosa==0.11.0",
+        "numpy>=1.24.0",
+        "s3tokenizer",
+        "resemble-perth==1.0.1",
+        "conformer==0.3.2",
+        "safetensors==0.5.3",
+        "pykakasi==2.3.0",
+        "gradio==5.44.1",
+        "einops>=0.6.1",
+        "scipy>=1.6.0",
+        "scikit-learn>=1.1.0",
+        "soundfile>=0.12.1",
+        "requests>=2.25.0",
+        "Pillow>=8.0.0",
+    ],
+    dependency_links=[
+        "git+https://github.com/resemble-ai/chatterbox.git#egg=chatterbox-tts",
+    ],
+)

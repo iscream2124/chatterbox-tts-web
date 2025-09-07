@@ -3,7 +3,16 @@ import os
 import uuid
 import torch
 import torchaudio as ta
-from chatterbox.mtl_tts import ChatterboxMultilingualTTS, SUPPORTED_LANGUAGES
+import subprocess
+import sys
+
+# chatterbox 모듈 설치 (Streamlit Cloud용)
+try:
+    from chatterbox.mtl_tts import ChatterboxMultilingualTTS, SUPPORTED_LANGUAGES
+except ImportError:
+    with st.spinner("chatterbox 모듈을 설치하는 중..."):
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "git+https://github.com/resemble-ai/chatterbox.git"])
+        from chatterbox.mtl_tts import ChatterboxMultilingualTTS, SUPPORTED_LANGUAGES
 
 # 페이지 설정
 st.set_page_config(
